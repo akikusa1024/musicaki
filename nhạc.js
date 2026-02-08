@@ -154,4 +154,58 @@ function filterSongs() {
     displaySongs(filtered);
 }
 
+
 displaySongs(songs);
+// --- LOGIC HOA ANH ĐÀO BAY ---
+function createPetal() {
+    const container = document.getElementById('sakura-container');
+    const petal = document.createElement('div');
+    
+    petal.className = 'petal';
+    
+    // Kích thước ngẫu nhiên
+    const size = Math.random() * 10 + 10 + "px";
+    petal.style.width = size;
+    petal.style.height = size;
+    
+    // Vị trí ngang ngẫu nhiên
+    petal.style.left = Math.random() * 100 + "vw";
+    
+    // Tốc độ rơi ngẫu nhiên
+    const duration = Math.random() * 5 + 5 + "s";
+    petal.style.animationDuration = duration;
+    
+    container.appendChild(petal);
+    
+    // Xóa cánh hoa sau khi rơi xong để web không bị nặng
+    setTimeout(() => {
+        petal.remove();
+    }, 10000);
+}
+
+// Tạo cánh hoa mỗi 300ms
+setInterval(createPetal, 300);
+
+// --- LOGIC NHẠC NỀN ---
+function toggleMusic() {
+    const music = document.getElementById('bg-music');
+    const icon = document.getElementById('music-icon');
+    
+    if (music.paused) {
+        music.play();
+        icon.innerText = "🎵";
+        icon.classList.add('playing');
+    } else {
+        music.pause();
+        icon.innerText = "🔇";
+        icon.classList.remove('playing');
+    }
+}
+
+// Gợi ý: Tự động chạy nhạc khi người dùng click bất kỳ đâu lần đầu tiên
+document.body.addEventListener('click', function() {
+    const music = document.getElementById('bg-music');
+    if (music.paused) {
+        // Có thể mở nhạc tại đây nếu muốn
+    }
+}, { once: true });
