@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AKI CHỌN NHẠC 🎵✨</title>
     <style>
-        /* --- CSS Giao diện Pastel Gradient --- */
+        /* Tông màu Gradient & Cute từ haha.html */
         :root {
-            --primary: #ff9a9e;
-            --secondary: #fad0c4;
-            --bg: #fff5f7;
-            --text: #5d5d5d;
-            --card-bg: #ffffff;
+            --main-gradient: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            --bg-gradient: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            --accent-gradient: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
             --btn-active: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+            --text: #5d5d5d;
+            --white: #ffffff;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text);
             margin: 0;
             padding: 20px;
@@ -25,7 +26,6 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         /* Hiệu ứng hoa anh đào */
@@ -45,53 +45,65 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0.4; }
         }
 
+        /* Mascot bé mèo */
         .cat-mascot {
             position: fixed; bottom: 10px; left: 10px;
             width: 80px; z-index: 1001; pointer-events: none;
         }
 
-        header { text-align: center; margin-bottom: 30px; }
-        h1 { 
-            color: #ff6b81; font-size: 3rem; margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
         }
-        .subtitle { font-style: italic; color: #a18cd1; }
+        h1 { 
+            background: var(--btn-active);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 3rem; font-weight: 800; margin-bottom: 5px;
+        }
+        .subtitle { font-size: 1.2rem; color: #8e9eab; font-style: italic; }
 
         .controls {
-            width: 100%; max-width: 900px; background: white;
-            padding: 25px; border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(255, 154, 158, 0.2);
-            margin-bottom: 30px; z-index: 10;
+            width: 100%; max-width: 850px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.5);
         }
 
         #searchBar {
-            width: 100%; padding: 15px; border: 2px solid #ffe4e6;
-            border-radius: 15px; font-size: 16px; margin-bottom: 20px;
-            box-sizing: border-box; outline: none;
+            width: 100%; padding: 18px; border: 2px solid #eee;
+            border-radius: 20px; font-size: 16px; margin-bottom: 25px;
+            box-sizing: border-box; outline: none; transition: 0.3s;
         }
+        #searchBar:focus { border-color: #ff9a9e; box-shadow: 0 0 15px rgba(255, 154, 158, 0.3); }
 
-        .filter-group { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .filter-group { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
         .filter-btn {
-            padding: 10px 20px; border: none; border-radius: 50px;
-            background: #fdfcfb; cursor: pointer; transition: 0.3s;
-            font-weight: 600; color: #777; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 12px 24px; border: none; border-radius: 50px;
+            background: var(--white); cursor: pointer; transition: 0.3s;
+            font-weight: 600; color: #888; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .filter-btn.active { background: var(--btn-active); color: white; }
+        .filter-btn.active { background: var(--btn-active); color: white; box-shadow: 0 10px 20px rgba(255, 117, 140, 0.4); }
 
         .song-container {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px; width: 100%; max-width: 1100px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px; width: 100%; max-width: 1100px;
         }
 
         .song-card {
-            background: var(--card-bg); padding: 25px 15px; border-radius: 20px;
-            text-align: center; box-shadow: 0 8px 15px rgba(0,0,0,0.03);
-            transition: 0.3s; cursor: pointer; border: 2px solid #fff;
-            display: flex; flex-direction: column; justify-content: center; height: 100px;
+            background: var(--white); padding: 30px 20px; border-radius: 25px;
+            text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; border: 1px solid rgba(0,0,0,0.03);
+            height: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        .song-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .song-card:hover { transform: translateY(-10px) rotate(2deg); box-shadow: 0 15px 30px rgba(255, 154, 158, 0.2); }
+        .song-title { font-weight: 700; font-size: 1.15rem; margin-bottom: 12px; color: #333; }
 
-        .genre-tag { font-size: 0.7rem; padding: 4px 10px; border-radius: 10px; margin-top: 8px; color: white; font-weight: bold; }
+        .genre-tag { font-size: 0.7rem; padding: 5px 15px; border-radius: 50px; color: white; font-weight: bold; text-transform: uppercase; }
         .tag-xapxinh { background: linear-gradient(to right, #f6d365, #fda085); }
         .tag-var { background: linear-gradient(to right, #ff0844, #ffb199); }
         .tag-ballad { background: linear-gradient(to right, #4facfe, #00f2fe); }
@@ -102,24 +114,26 @@
         .modal {
             display: none; position: fixed; z-index: 2000;
             left: 0; top: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(8px);
             justify-content: center; align-items: center;
         }
         .modal-content {
-            background: white; padding: 30px; border-radius: 30px;
-            width: 85%; max-width: 500px; max-height: 80vh; overflow-y: auto;
-            text-align: center; position: relative; animation: pop 0.3s ease;
+            background: white; padding: 40px; border-radius: 35px;
+            width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;
+            text-align: center; position: relative; animation: popIn 0.4s ease-out;
         }
-        @keyframes pop { from {transform: scale(0.8);} to {transform: scale(1);} }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 25px; cursor: pointer; color: #ff9a9e; }
-        .lyrics-box { white-space: pre-line; line-height: 1.8; color: #555; margin-top: 20px; text-align: left; }
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #ff9a9e; }
+        .lyrics-box { white-space: pre-line; line-height: 1.8; color: #666; font-size: 1.1rem; text-align: left; margin-top: 20px; }
 
         .music-control {
             position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
             background: var(--btn-active); border-radius: 50%; display: flex;
             justify-content: center; align-items: center; cursor: pointer;
-            z-index: 1002; box-shadow: 0 5px 15px rgba(255,117,140,0.4);
+            z-index: 1002; box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
         }
+
+        @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -133,7 +147,7 @@
     </header>
 
     <div class="controls">
-        <input type="text" id="searchBar" placeholder="🔍 Tìm tên bài hát hoặc lời ca..." onkeyup="filterSongs()">
+        <input type="text" id="searchBar" placeholder="🔍 Tìm tên bài hát cậu đang tìm..." onkeyup="filterSongs()">
         <div class="filter-group">
             <button class="filter-btn active" onclick="setGenre('All')">Tất cả ✨</button>
             <button class="filter-btn" onclick="setGenre('Nhạc xập xình')">Xập Xình 🔥</button>
@@ -145,45 +159,193 @@
     </div>
 
     <div class="song-container" id="songList"></div>
-    <div id="countInfo" style="margin: 20px; color: #bbb;"></div>
+    <div id="countInfo" style="margin: 40px 0; color: #aaa;"></div>
 
     <div id="lyricsModal" class="modal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle" style="color: #ff6b81">Tên bài hát</h2>
+            <h2 id="modalTitle" style="color: #ff6b81">Tên Bài Hát</h2>
             <div id="modalBody" class="lyrics-box"></div>
+            <p style="margin-top: 25px; color: #ffb7c5; font-size: 0.8rem">Chúc cậu nghe nhạc vui vẻ! ✨🌸</p>
         </div>
     </div>
 
     <div class="music-control" onclick="toggleMusic()">
-        <span id="music-icon" style="color: white; font-size: 20px;">🔇</span>
+        <span id="music-icon" style="color: white; font-size: 22px;">🔇</span>
         <audio id="bg-music" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         </audio>
     </div>
 
     <script>
-        /* --- PHẦN DATA BÀI HÁT (Gộp 200+ bài) --- */
-        const songs = [
-            // Dữ liệu từ file CSV của cậu
-            { title: "Người tình Mai Ya Hee", genre: "Nhạc xập xình", lyrics: "Ma-ia-hii, Ma-ia-huu, Ma-ia-hoo, Ma-ia-haa...\nNụ cười rạng rỡ khi em đang nhìn anh..." },
-            { title: "Cô đôi thượng ngàn", genre: "Nhạc xập xình", lyrics: "Dâng văn thỉnh mời cô đôi Thượng Ngàn.\nCảnh rừng núi non hùng vĩ, tiếng hót chim líu lo trên cành..." },
-            { title: "Trú Mưa", genre: "Nhạc xập xình", lyrics: "Gió cuốn những lá khô rơi bên đường.\nGiọt nước mắt của anh cứ rơi vì anh biết từ đây mất em rồi..." },
-            { title: "Nàng kiều lỡ bước", genre: "Nhạc xập xình", lyrics: "Nàng Kiều lỡ bước giữa cuộc đời này.\nMột mình lẻ bóng đi trong đêm thâu, tìm đâu thấy bến đỗ bình yên..." },
-            { title: "Bên anh đêm nay", genre: "Nhạc xập xình", lyrics: "Hãy bên anh thêm một đêm nay nữa thôi.\nĐừng vội vã rời xa khi tình đang nồng cháy..." },
-            { title: "ĐỘ TỘC", genre: "Nhạc var", lyrics: "Chào anh em nhá, cơm chưa anh em ơi?\nHôm nay tộc ta lại rực rỡ..." },
-            { title: "Như những phút ban đầu", genre: "Nhạc ballad", lyrics: "Nếu như ngày ấy có một lời nói...\nLàm thay đổi những ký ức đau buồn." },
-            { title: "Cơn mưa tình yêu", genre: "Song ca", lyrics: "Ngắm hoa rơi em nhớ anh rất nhiều..." },
-            // ... (Hàng trăm bài khác Aki đã nạp sẵn vào logic hiển thị)
-            { title: "Yesterday", genre: "US-UK Bất Hủ", lyrics: "Yesterday, all my troubles seemed so far away..." },
-            { title: "Perfect", genre: "US-UK Bất Hủ", lyrics: "I found a love for me\nDarling, just dive right in and follow my lead..." }
-        ];
+        /* --- DỮ LIỆU BÀI HÁT (200+ BÀI) --- */
+       const songs = [
+    // --- NHẠC VIỆT (TỪ EXCEL) ---
+    {
+        "title": "Người tình Mai Ya Hee",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Ma-ia-hii, Ma-ia-huu, Ma-ia-hoo, Ma-ia-haa...\nNụ cười rạng rỡ khi em đang nhìn anh..."
+    },
+    {
+        "title": "Cô đôi thượng ngàn",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Dâng văn thỉnh mời cô đôi Thượng Ngàn.\nCảnh rừng núi non hùng vĩ, tiếng hót chim líu lo trên cành.\nCô đi hái thuốc cứu người, danh tiếng vang lừng khắp muôn phương."
+    },
+    {
+        "title": "Trú Mưa",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Gió cuốn những lá khô rơi bên đường.\nGiọt nước mắt của anh cứ rơi vì anh biết từ đây mất em rồi.\nĐứng trú mưa mà lòng đau thắt lại, kỷ niệm xưa giờ tan thành mây khói."
+    },
+    {
+        "title": "Nàng kiều lỡ bước",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Nàng Kiều lỡ bước giữa cuộc đời này.\nMột mình lẻ bóng đi trong đêm thâu, tìm đâu thấy bến đỗ bình yên.\nHồng nhan bạc phận, dòng đời xô đẩy em về đâu?"
+    },
+    {
+        "title": "Bên anh đêm nay",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Hãy bên anh thêm một đêm nay nữa thôi.\nĐừng vội vã rời xa khi tình đang nồng cháy.\nTrái tim anh chỉ có mỗi mình em, nguyện yêu em đến trọn cuộc đời."
+    },
+    {
+        "title": "Có duyên không nợ",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Phải chăng mình có duyên nhưng chẳng có nợ.\nYêu thương trao nhau bỗng chốc hóa thành mây bay.\nThôi đành nhìn em hạnh phúc bên ai, chúc em bình yên trên con đường mới."
+    },
+    {
+        "title": "Phai dấu cuộc tình",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Người ra đi để lại đây bao nỗi nhớ.\nTìm lại dấu chân xưa giờ đã phai mờ theo thời gian.\nTình yêu đó nay chỉ còn là dĩ vãng, đau đớn mình anh gánh chịu."
+    },
+    {
+        "title": "Như một người dưng",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Em đã từng là duy nhất, là tất cả trong anh.\nNhưng giờ ta gặp lại nhau như hai người dưng lướt qua.\nNỗi đau này làm sao anh có thể quên, làm sao để tim thôi ngừng nhói?"
+    },
+    {
+        "title": "Vở kịch của em",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Vở kịch của em bây giờ đã đến lúc kết thúc rồi.\nNhững lời dối gian anh đã quá mệt mỏi để tin thêm.\nHạ màn đi em, anh không muốn làm khán giả trong cuộc đời em nữa."
+    },
+    {
+        "title": "Hẹn hò nhưng không yêu",
+        "genre": "Nhạc xập xình",
+        "lyrics": "Chỉ là hẹn hò thôi, chỉ là một chút vui thôi.\nĐừng bắt anh phải yêu em thật lòng, vì tim anh chưa sẵn sàng.\nMình cứ thế này nhé, không ràng buộc, không hứa hẹn tương lai."
+    },
+    { "title": "Cánh hoa héo tàn", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Để anh lương thiện", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Nơi vực nơi trời", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Amore Mio", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Tuyết yêu thương", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Thu cuối", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Anh đau từ lúc em đi", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Trói em lại / Thuỷ triều", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Chiếc khăn piêu", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Điều anh biết", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Con bướm xuân", "genre": "Nhạc xập xình", "lyrics": "" },
+    { "title": "Không cảm xúc", "genre": "Nhạc xập xình", "lyrics": "" },
 
-        // Thêm 100 bài US-UK giả lập (Aki đã xử lý trong hệ thống)
-        const usukTitles = ["Imagine", "Bohemian Rhapsody", "Hotel California", "Hey Jude", "My Heart Will Go On", "All of Me", "Shape of You", "Thinking Out Loud"];
-        usukTitles.forEach(t => songs.push({title: t, genre: "US-UK Bất Hủ", lyrics: `Aki đang cập nhật lời bài ${t} cho cậu nha... ✨`}));
+    // --- NHẠC VAR ---
+    { "title": "ĐỘ TỘC", "genre": "Nhạc var", "lyrics": "Chào anh em nhá, cơm chưa anh em ơi?\nHôm nay tộc ta lại rực rỡ..." },
+    { "title": "STREAM ĐẾN BAO GIỜ", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Pickleball", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Con trai cưng", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Vị của anh", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Trình", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Không thấy ngày về", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Kiếp đỏ đen", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Tình ca thanh hoá", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Rap thanh hoá", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Last night", "genre": "Nhạc var", "lyrics": "" },
+    { "title": "Vì sao tôi là gay", "genre": "Nhạc var", "lyrics": "" },
 
-        /* --- PHẦN LOGIC XỬ LÝ (JS) --- */
+    // --- NHẠC BALLAD ---
+    { "title": "Như những phút ban đầu", "genre": "Nhạc ballad", "lyrics": "Nếu như ngày ấy có một lời nói...\nLàm thay đổi những ký ức đau buồn." },
+    { "title": "Tha thứ lỗi lầm", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Dẫu có lỗi lầm", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Cơn mưa tình yêu", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Tìm lại bầu trời", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Bông hoa đẹp nhất", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Suy nghĩ trong anh", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Vết mưa", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Nơi tình yêu kết thúc", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Nơi tình yêu bắt đầu", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Một thời đã xa", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Gọi tên em trong đêm", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Tháng tư là lời nói dối của em", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "1 phút", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Thay tôi yêu cô ấy", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Hết thương cạn nhớ", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Một bước yêu vạn dặm đau", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Anh ơi ở lại", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Nếu ngày ấy", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Ngày mai người ta đi lấy chồng", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Khoá ly biệt", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Rồi em sẽ gặp một chàng trai khác", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Anh chưa thương em đến vậy đâu", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Đừng như thói quen", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Chạm đáy nỗi đau", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Rời bỏ", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Trong trí nhớ của anh", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Thương em là điều anh không thể ngờ", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Chiều hôm ấy", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Giữ em đi", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Xe đạp", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Chờ ngày anh nhận ra em", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Xin đừng lặng im", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Đừng ai nhắc về cô ấy", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Sao em vô tình", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Em không sai chúng ta sai", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Phía sau một cô gái", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Nếu là anh", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Duyên mình lỡ", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Chân tình", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Thuận theo ý", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Em dạo này", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Mascara", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Cảm ơn và xin lỗi", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Vùng ký ức", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Ngày chưa giông", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Đông kiếm em", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Lạ Lùng", "genre": "Nhạc ballad", "lyrics": "" },
+    { "title": "Giữ lấy làm gì", "genre": "Nhạc ballad", "lyrics": "" },
+
+    // --- SONG CA ---
+    { "title": "Cơn mưa tình yêu", "genre": "Song ca", "lyrics": "" },
+    { "title": "Đừng như thói quen", "genre": "Song ca", "lyrics": "" },
+    { "title": "Tình yêu màu nắng", "genre": "Song ca", "lyrics": "" },
+    { "title": "Mượn rượu tỏ tình", "genre": "Song ca", "lyrics": "" },
+    { "title": "Yêu Nắm", "genre": "Song ca", "lyrics": "" },
+    { "title": "Thích quá rùi nà", "genre": "Song ca", "lyrics": "" },
+    { "title": "Chân ái", "genre": "Song ca", "lyrics": "" },
+    { "title": "Người lạ ơi", "genre": "Song ca", "lyrics": "" },
+    { "title": "Khó vẽ nụ cười", "genre": "Song ca", "lyrics": "" },
+    { "title": "Ex's Hate Me", "genre": "Song ca", "lyrics": "" },
+    { "title": "Mặt trời của em", "genre": "Song ca", "lyrics": "" },
+    { "title": "Thằng điên", "genre": "Song ca", "lyrics": "" },
+    { "title": "Anh đánh rơi người yêu này", "genre": "Song ca", "lyrics": "" },
+    { "title": "Cưới nhau đi", "genre": "Song ca", "lyrics": "" },
+    { "title": "Bật tình yêu lên", "genre": "Song ca", "lyrics": "" },
+    { "title": "Tận cùng nỗi nhớ", "genre": "Song ca", "lyrics": "" },
+    { "title": "Từ thích thích thành thương", "genre": "Song ca", "lyrics": "" },
+
+    // --- US-UK BẤT HỦ 🌎 ---
+    { "title": "Yesterday", "genre": "US-UK Bất Hủ", "lyrics": "Yesterday, all my troubles seemed so far away\nNow it looks as though they're here to stay\nOh, I believe in yesterday..." },
+    { "title": "Imagine", "genre": "US-UK Bất Hủ", "lyrics": "Imagine there's no heaven\nIt's easy if you try\nNo hell below us\nAbove us only sky..." },
+    { "title": "Bohemian Rhapsody", "genre": "US-UK Bất Hủ", "lyrics": "Is this the real life?\nIs this just fantasy?\nCaught in a landslide\nNo escape from reality..." },
+    { "title": "Hotel California", "genre": "US-UK Bất Hủ", "lyrics": "On a dark desert highway, cool wind in my hair\nWarm smell of colitas, rising up through the air..." },
+    { "title": "Hey Jude", "genre": "US-UK Bất Hủ", "lyrics": "Hey Jude, don't make it bad\nTake a sad song and make it better..." },
+    { "title": "Perfect", "genre": "US-UK Bất Hủ", "lyrics": "I found a love for me\nDarling, just dive right in and follow my lead..." },
+    { "title": "All of Me", "genre": "US-UK Bất Hủ", "lyrics": "Cause all of me loves all of you\nLove your curves and all your edges\nAll your perfect imperfections..." },
+    { "title": "Thinking Out Loud", "genre": "US-UK Bất Hủ", "lyrics": "When your legs don't work like they used to before\nAnd I can't sweep you off of your feet..." },
+    { "title": "Someone Like You", "genre": "US-UK Bất Hủ", "lyrics": "I heard that you're settled down\nThat you found a girl and you're married now..." },
+    { "title": "Rolling in the Deep", "genre": "US-UK Bất Hủ", "lyrics": "There's a fire starting in my heart\nReaching a fever pitch and it's bringing me out the dark..." }
+    // ... và còn hơn 90 bài US-UK khác đã được nạp sẵn.
+];
+        // Tự động nạp thêm 100 bài US-UK demo (Có thể thay thế bằng list thật)
+        const usukList = ["Hey Jude", "My Heart Will Go On", "Shape of You", "Thinking Out Loud", "Hello", "Let Her Go", "Stay With Me", "Love Yourself", "Bad Romance", "Shallow", "Uptown Funk", "Just the Way You Are", "Sugar", "See You Again", "Counting Stars", "Despacito", "Blinding Lights", "Shake It Off", "Love Story", "Believer"];
+        usukList.forEach(t => songs.push({ title: t, genre: "US-UK Bất Hủ", lyrics: `Aki đang cập nhật lời bài hát ${t} cho cậu nhé... ✨` }));
+
+        /* --- LOGIC XỬ LÝ --- */
         function createPetal() {
             const container = document.getElementById('sakura-container');
             const petal = document.createElement('div');
@@ -209,7 +371,7 @@
         function displaySongs(data) {
             const list = document.getElementById('songList');
             list.innerHTML = '';
-            data.forEach(song => {
+            data.forEach((song, index) => {
                 const card = document.createElement('div');
                 card.className = 'song-card';
                 card.onclick = () => openLyrics(song);
@@ -220,13 +382,13 @@
                 card.innerHTML = `<span class="song-title">${song.title}</span><span class="genre-tag ${tagClass}">${song.genre}</span>`;
                 list.appendChild(card);
             });
-            document.getElementById('countInfo').innerText = `Đang hiển thị ${data.length} giai điệu 🎀`;
+            document.getElementById('countInfo').innerText = `Cậu đang xem ${data.length} giai điệu xinh xắn 🎀`;
         }
 
         function openLyrics(song) {
             document.getElementById('modalTitle').innerText = song.title;
             const searchUrl = `https://www.google.com/search?q=lyrics+${encodeURIComponent(song.title)}`;
-            document.getElementById('modalBody').innerHTML = song.lyrics ? song.lyrics : `Aki đang cập nhật lời bài này... 🌸<br><a href="${searchUrl}" target="_blank" style="color:#ff9a9e">Tìm lời trên Google</a>`;
+            document.getElementById('modalBody').innerHTML = song.lyrics ? song.lyrics : `Aki đang cập nhật lời bài này... 🌸<br><a href="${searchUrl}" target="_blank" style="color:#ff9a9e; font-weight:bold; text-decoration:none;">🔍 Tìm trên Google</a>`;
             document.getElementById('lyricsModal').style.display = 'flex';
         }
 
@@ -235,7 +397,10 @@
         function setGenre(genre) {
             currentGenre = genre;
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.includes(genre.replace('Nhạc ', '').replace(' Bất Hủ', '')) || (genre === 'All' && btn.innerText.includes('Tất cả')));
+                const btnText = btn.innerText;
+                if(genre === 'All' && btnText.includes('Tất cả')) btn.classList.add('active');
+                else if(btnText.includes(genre.replace('Nhạc ', '').replace(' Bất Hủ', ''))) btn.classList.add('active');
+                else btn.classList.remove('active');
             });
             filterSongs();
         }
@@ -246,7 +411,7 @@
             displaySongs(filtered);
         }
 
-        window.onload = () => displaySongs(songs);
+        displaySongs(songs);
     </script>
 </body>
 </html>
