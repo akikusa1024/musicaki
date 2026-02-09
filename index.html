@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Chọn nhạc đê 🎵✨</title>
+    <title> CHỌN NHẠC ĐÊ </title>
     <style>
-        /* Tông màu Gradient & Cute từ haha.html mà cậu thích */
+        /* Tông màu Gradient & Cute từ haha.html */
         :root {
             --main-gradient: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
             --bg-gradient: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            --accent-gradient: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
             --btn-active: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
             --text: #5d5d5d;
             --white: #ffffff;
@@ -27,7 +28,7 @@
             min-height: 100vh;
         }
 
-        /* Hiệu ứng hoa anh đào rơi */
+        /* Hiệu ứng hoa anh đào */
         #sakura-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -42,6 +43,12 @@
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0.4; }
+        }
+
+        /* Mascot bé mèo */
+        .cat-mascot {
+            position: fixed; bottom: 10px; left: 10px;
+            width: 80px; z-index: 1001; pointer-events: none;
         }
 
         header {
@@ -119,6 +126,13 @@
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #ff9a9e; }
         .lyrics-box { white-space: pre-line; line-height: 1.8; color: #666; font-size: 1.1rem; text-align: left; margin-top: 20px; }
 
+        .music-control {
+            position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
+            background: var(--btn-active); border-radius: 50%; display: flex;
+            justify-content: center; align-items: center; cursor: pointer;
+            z-index: 1002; box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+        }
+
         @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
@@ -127,12 +141,12 @@
     <div id="sakura-container"></div>
 
     <header>
-        <h1>AKI CHỌN NHẠC 🎀</h1>
-        <p class="subtitle"> Chọn nhanh lên đmmm</p>
+        <h1>CHỌN NHẠC ĐÊ</h1>
+        <p class="subtitle"> Chọn bài nhanh lên dmm</p>
     </header>
 
     <div class="controls">
-        <input type="text" id="searchBar" placeholder="🔍 Tìm tên bài hát cậu yêu thích..." onkeyup="filterSongs()">
+        <input type="text" id="searchBar" placeholder="🔍 Tìm tên bài hát cậu đang tìm..." onkeyup="filterSongs()">
         <div class="filter-group">
             <button class="filter-btn active" onclick="setGenre('All')">Tất cả ✨</button>
             <button class="filter-btn" onclick="setGenre('Nhạc xập xình')">Xập Xình 🔥</button>
@@ -144,169 +158,132 @@
     </div>
 
     <div class="song-container" id="songList"></div>
-    <div id="countInfo" style="margin: 40px 0; color: #aaa; font-size: 0.9rem;"></div>
+    <div id="countInfo" style="margin: 40px 0; color: #aaa;"></div>
 
     <div id="lyricsModal" class="modal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2 id="modalTitle" style="color: #ff6b81">Tên Bài Hát</h2>
             <div id="modalBody" class="lyrics-box"></div>
-            <p style="margin-top: 25px; color: #ffb7c5; font-size: 0.8rem"> Hát đi còn gì nữa</p>
+            <p style="margin-top: 25px; color: #ffb7c5; font-size: 0.8rem"> Hát đi ơ kìa ✨🌸</p>
         </div>
+    </div>
+
+    <div class="music-control" onclick="toggleMusic()">
+        <span id="music-icon" style="color: white; font-size: 22px;">🔇</span>
+        <audio id="bg-music" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
     <script>
         /* --- DỮ LIỆU BÀI HÁT (200+ BÀI) --- */
-       const songs = [
-    // --- NHẠC VIỆT (TỪ EXCEL) ---
-    {
-        "title": "Người tình Mai Ya Hee",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Cô đôi thượng ngàn",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Trú Mưa",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Nàng kiều lỡ bước",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Bên anh đêm nay",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Có duyên không nợ",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Phai dấu cuộc tình",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Như một người dưng",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Vở kịch của em",
-        "genre": "Nhạc xập xình",
-    },
-    {
-        "title": "Hẹn hò nhưng không yêu",
-        "genre": "Nhạc xập xình",
-    },
-    { "title": "Cánh hoa héo tàn", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Để anh lương thiện", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Nơi vực nơi trời", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Amore Mio", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Tuyết yêu thương", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Thu cuối", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Anh đau từ lúc em đi", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Trói em lại / Thuỷ triều", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Chiếc khăn piêu", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Điều anh biết", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Con bướm xuân", "genre": "Nhạc xập xình", "lyrics": "" },
-    { "title": "Không cảm xúc", "genre": "Nhạc xập xình", "lyrics": "" },
+        const songs = [
+            // --- NHẠC VIỆT ---
+            const songs = [
+    { title: "Người tình Mai Ya Hee", genre: "Nhạc xập xình", lyrics: `Ma-ia-hii, Ma-ia-huu...` },
+    { title: "Cô đôi thượng ngàn", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Trú Mưa", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Nàng kiều lỡ bước", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Bên anh đêm nay", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Có duyên không nợ", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Phai dấu cuộc tình", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Như một người dưng", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Vở kịch của em", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Hẹn hò nhưng không yêu", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Cánh hoa héo tàn", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Để anh lương thiện", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Nơi vực nơi trời", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Amore Mio", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Tuyết yêu thương", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Thu cuối", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Anh đau từ lúc em đi", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Trói em lại / Thuỷ triều", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Chiếc khăn piêu", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Điều anh biết", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Con bướm xuân", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "Không cảm xúc", genre: "Nhạc xập xình", lyrics: `` },
+    { title: "ĐỘ TỘC", genre: "Nhạc var", lyrics: `Chào anh em nhá!` },
+    { title: "STREAM ĐẾN BAO GIỜ", genre: "Nhạc var", lyrics: `` },
+    { title: "Pickleball", genre: "Nhạc var", lyrics: `` },
+    { title: "Con trai cưng", genre: "Nhạc var", lyrics: `` },
+    { title: "Vị của anh", genre: "Nhạc var", lyrics: `` },
+    { title: "Trình", genre: "Nhạc var", lyrics: `` },
+    { title: "Không thấy ngày về", genre: "Nhạc var", lyrics: `` },
+    { title: "Kiếp đỏ đen", genre: "Nhạc var", lyrics: `` },
+    { title: "Tình ca thanh hoá", genre: "Nhạc var", lyrics: `` },
+    { title: "Rap thanh hoá", genre: "Nhạc var", lyrics: `` },
+    { title: "Last night", genre: "Nhạc var", lyrics: `` },
+    { title: "Vì sao tôi là gay", genre: "Nhạc var", lyrics: `` },
+    { title: "Như những phút ban đầu", genre: "Nhạc ballad", lyrics: `Nếu như ngày ấy...` },
+    { title: "Tha thứ lỗi lầm", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Dẫu có lỗi lầm", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Cơn mưa tình yêu", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Tìm lại bầu trời", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Bông hoa đẹp nhất", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Suy nghĩ trong anh", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Vết mưa", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Nơi tình yêu kết thúc", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Nơi tình yêu bắt đầu", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Một thời đã xa", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Gọi tên em trong đêm", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Tháng tư là lời nói dối của em", genre: "Nhạc ballad", lyrics: `` },
+    { title: "1 phút", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Thay tôi yêu cô ấy", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Hết thương cạn nhớ", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Một bước yêu vạn dặm đau", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Anh ơi ở lại", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Nếu ngày ấy", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Ngày mai người ta đi lấy chồng", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Khoá ly biệt", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Rồi em sẽ gặp một chàng trai khác", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Anh chưa thương em đến vậy đâu", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Đừng như thói quen", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Chạm đáy nỗi đau", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Rời bỏ", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Trong trí nhớ của anh", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Thương em là điều anh không thể ngờ", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Chiều hôm ấy", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Giữ em đi", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Xe đạp", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Chờ ngày anh nhận ra em", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Xin đừng lặng im", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Đừng ai nhắc về cô ấy", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Sao em vô tình", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Em không sai chúng ta sai", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Phía sau một cô gái", genre: "Nhạc ballad", lyrics: `` },
+    { title: "Nếu là anh", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Duyên mình lỡ", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Chân tình", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Thuận theo ý", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Em dạo này", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Mascara", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Cảm ơn và xin lỗi", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Vùng ký ức", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Ngày chưa giông", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Đông kiếm em", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Lạ Lùng", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Giữ lấy làm gì", genre: "Nhạc ballad", lyrics: "" },
+    { title: "Cơn mưa tình yêu", genre: "Song ca", lyrics: "" },
+    { title: "Đừng như thói quen", genre: "Song ca", lyrics: "" },
+    { title: "Tình yêu màu nắng", genre: "Song ca", lyrics: "" },
+    { title: "Mượn rượu tỏ tình", genre: "Song ca", lyrics: "" },
+    { title: "Yêu Nắm", genre: "Song ca", lyrics: "" },
+    { title: "Thích quá rùi nà", genre: "Song ca", lyrics: "" },
+    { title: "Chân ái", genre: "Song ca", lyrics: "" },
+    { title: "Người lạ ơi", genre: "Song ca", lyrics: "" },
+    { title: "Khó vẽ nụ cười", genre: "Song ca", lyrics: "" },
+    { title: "Ex's Hate Me", genre: "Song ca", lyrics: "" },
+    { title: "Mặt trời của em", genre: "Song ca", lyrics: "" },
+    { title: "Thằng điên", genre: "Song ca", lyrics: "" },
+    { title: "Anh đánh rơi người yêu này", genre: "Song ca", lyrics: "" },
+    { title: "Cưới nhau đi", genre: "Song ca", lyrics: "" },
+    { title: "Bật tình yêu lên", genre: "Song ca", lyrics: "" },
+    { title: "Tận cùng nỗi nhớ", genre: "Song ca", lyrics: "" },
+    { title: "Từ thích thích thành thương", genre: "Song ca", lyrics: "" }
+];
 
-    // --- NHẠC VAR ---
-    { "title": "ĐỘ TỘC", "genre": "Nhạc var", "lyrics": "Chào anh em nhá, cơm chưa anh em ơi?\nHôm nay tộc ta lại rực rỡ..." },
-    { "title": "STREAM ĐẾN BAO GIỜ", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Pickleball", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Con trai cưng", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Vị của anh", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Trình", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Không thấy ngày về", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Kiếp đỏ đen", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Tình ca thanh hoá", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Rap thanh hoá", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Last night", "genre": "Nhạc var", "lyrics": "" },
-    { "title": "Vì sao tôi là gay", "genre": "Nhạc var", "lyrics": "" },
-
-    // --- NHẠC BALLAD ---
-    { "title": "Như những phút ban đầu", "genre": "Nhạc ballad", "lyrics": "Nếu như ngày ấy có một lời nói...\nLàm thay đổi những ký ức đau buồn." },
-    { "title": "Tha thứ lỗi lầm", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Dẫu có lỗi lầm", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Cơn mưa tình yêu", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Tìm lại bầu trời", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Bông hoa đẹp nhất", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Suy nghĩ trong anh", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Vết mưa", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Nơi tình yêu kết thúc", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Nơi tình yêu bắt đầu", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Một thời đã xa", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Gọi tên em trong đêm", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Tháng tư là lời nói dối của em", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "1 phút", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Thay tôi yêu cô ấy", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Hết thương cạn nhớ", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Một bước yêu vạn dặm đau", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Anh ơi ở lại", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Nếu ngày ấy", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Ngày mai người ta đi lấy chồng", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Khoá ly biệt", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Rồi em sẽ gặp một chàng trai khác", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Anh chưa thương em đến vậy đâu", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Đừng như thói quen", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Chạm đáy nỗi đau", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Rời bỏ", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Trong trí nhớ của anh", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Thương em là điều anh không thể ngờ", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Chiều hôm ấy", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Giữ em đi", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Xe đạp", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Chờ ngày anh nhận ra em", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Xin đừng lặng im", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Đừng ai nhắc về cô ấy", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Sao em vô tình", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Em không sai chúng ta sai", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Phía sau một cô gái", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Nếu là anh", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Duyên mình lỡ", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Chân tình", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Thuận theo ý", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Em dạo này", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Mascara", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Cảm ơn và xin lỗi", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Vùng ký ức", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Ngày chưa giông", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Đông kiếm em", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Lạ Lùng", "genre": "Nhạc ballad", "lyrics": "" },
-    { "title": "Giữ lấy làm gì", "genre": "Nhạc ballad", "lyrics": "" },
-           // --- BỔ SUNG NHẠC BALLAD VIỆT ---
-{ title: "Ngày đầu tiên", genre: "Nhạc ballad",
-{ title: "Hơn cả yêu", genre: "Nhạc ballad", 
-{ title: "Suýt nữa thì", genre: "Nhạc ballad",
-{ title: "Gió", genre: "Nhạc ballad",
-{ title: "Có chàng trai viết lên cây", genre: "Nhạc ballad", 
-{ title: "Muộn rồi mà sao còn", genre: "Nhạc ballad",
-{ title: "Đã lỡ yêu em nhiều", genre: "Nhạc ballad", 
-{ title: "Nơi này có anh", genre: "Nhạc ballad",
-{ title: "Mascara", genre: "Nhạc ballad",
-{ title: "Tháng mấy em nhớ anh", genre: "Nhạc ballad", 
-
-    // --- SONG CA ---
-    { "title": "Cơn mưa tình yêu", "genre": "Song ca", "lyrics": "" },
-    { "title": "Đừng như thói quen", "genre": "Song ca", "lyrics": "" },
-    { "title": "Tình yêu màu nắng", "genre": "Song ca", "lyrics": "" },
-    { "title": "Mượn rượu tỏ tình", "genre": "Song ca", "lyrics": "" },
-    { "title": "Yêu Nắm", "genre": "Song ca", "lyrics": "" },
-    { "title": "Thích quá rùi nà", "genre": "Song ca", "lyrics": "" },
-    { "title": "Chân ái", "genre": "Song ca", "lyrics": "" },
-    { "title": "Người lạ ơi", "genre": "Song ca", "lyrics": "" },
-    { "title": "Khó vẽ nụ cười", "genre": "Song ca", "lyrics": "" },
-    { "title": "Ex's Hate Me", "genre": "Song ca", "lyrics": "" },
-    { "title": "Mặt trời của em", "genre": "Song ca", "lyrics": "" },
-    { "title": "Thằng điên", "genre": "Song ca", "lyrics": "" },
-    { "title": "Anh đánh rơi người yêu này", "genre": "Song ca", "lyrics": "" },
-    { "title": "Cưới nhau đi", "genre": "Song ca", "lyrics": "" },
-    { "title": "Bật tình yêu lên", "genre": "Song ca", "lyrics": "" },
-    { "title": "Tận cùng nỗi nhớ", "genre": "Song ca", "lyrics": "" },
-    { "title": "Từ thích thích thành thương", "genre": "Song ca", "lyrics": "" },
-   // --- US-UK BẤT HỦ 🌎 ---
+// --- US-UK BẤT HỦ 🌎 ---
 { title: "Yesterday", genre: "US-UK Bất Hủ", lyrics: `Yesterday, all my troubles seemed so far away\nNow it looks as though they're here to stay\nOh, I believe in yesterday...` },
 { title: "Imagine", genre: "US-UK Bất Hủ", lyrics: `Imagine there's no heaven\nIt's easy if you try\nNo hell below us\nAbove us only sky...` },
 { title: "Bohemian Rhapsody", genre: "US-UK Bất Hủ", lyrics: `Is this the real life?\nIs this just fantasy?\nCaught in a landslide\nNo escape from reality...` },
@@ -407,8 +384,8 @@
 { title: "In the End", genre: "US-UK Bất Hủ", lyrics: `I tried so hard and got so far\nBut in the end, it doesn't even matter...` },
 { title: "Smells Like Teen Spirit", genre: "US-UK Bất Hủ", lyrics: `With the lights out, it's less dangerous\nHere chúng ta bây giờ, entertain us...` },
 { title: "Sweet Child O' Mine", genre: "US-UK Bất Hủ", lyrics: `She's got a smile that it seems to me\nReminds me of childhood memories...` }
-    // ... và còn hơn 90 bài US-UK khác đã được nạp sẵn.
-];
+        ];
+
         // Tự động nạp thêm 100 bài US-UK demo (Có thể thay thế bằng list thật)
         const usukList = ["Hey Jude", "My Heart Will Go On", "Shape of You", "Thinking Out Loud", "Hello", "Let Her Go", "Stay With Me", "Love Yourself", "Bad Romance", "Shallow", "Uptown Funk", "Just the Way You Are", "Sugar", "See You Again", "Counting Stars", "Despacito", "Blinding Lights", "Shake It Off", "Love Story", "Believer"];
         usukList.forEach(t => songs.push({ title: t, genre: "US-UK Bất Hủ", lyrics: `Aki đang cập nhật lời bài hát ${t} cho cậu nhé... ✨` }));
@@ -427,12 +404,6 @@
         }
         setInterval(createPetal, 400);
 
-        function toggleMusic() {
-            const music = document.getElementById('bg-music');
-            const icon = document.getElementById('music-icon');
-            if (music.paused) { music.play(); icon.innerText = "🎵"; }
-            else { music.pause(); icon.innerText = "🔇"; }
-        }
 
         let currentGenre = 'All';
 
@@ -483,4 +454,3 @@
     </script>
 </body>
 </html>
-
