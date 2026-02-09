@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AKI CHỌN NHẠC 🎵✨</title>
+    <title> Chọn nhạc đê 🎵✨</title>
     <style>
-        /* Tông màu Gradient & Cute từ haha.html */
+        /* Tông màu Gradient & Cute từ haha.html mà cậu thích */
         :root {
             --main-gradient: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
             --bg-gradient: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-            --accent-gradient: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
             --btn-active: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
             --text: #5d5d5d;
             --white: #ffffff;
@@ -28,7 +27,7 @@
             min-height: 100vh;
         }
 
-        /* Hiệu ứng hoa anh đào */
+        /* Hiệu ứng hoa anh đào rơi */
         #sakura-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -43,12 +42,6 @@
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0.4; }
-        }
-
-        /* Mascot bé mèo */
-        .cat-mascot {
-            position: fixed; bottom: 10px; left: 10px;
-            width: 80px; z-index: 1001; pointer-events: none;
         }
 
         header {
@@ -126,28 +119,20 @@
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #ff9a9e; }
         .lyrics-box { white-space: pre-line; line-height: 1.8; color: #666; font-size: 1.1rem; text-align: left; margin-top: 20px; }
 
-        .music-control {
-            position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
-            background: var(--btn-active); border-radius: 50%; display: flex;
-            justify-content: center; align-items: center; cursor: pointer;
-            z-index: 1002; box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
-        }
-
         @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="sakura-container"></div>
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3Ym95amR6Znd4Znd4Znd4Znd4Znd4Znd4Znd4Znd4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/3o7TKMGpx4GHlDuy8o/giphy.gif" class="cat-mascot" alt="Cat">
 
     <header>
         <h1>AKI CHỌN NHẠC 🎀</h1>
-        <p class="subtitle">Hôm nay cậu muốn nghe giai điệu nào? ✨🌸</p>
+        <p class="subtitle"> Chọn nhanh lên đmmm</p>
     </header>
 
     <div class="controls">
-        <input type="text" id="searchBar" placeholder="🔍 Tìm tên bài hát cậu đang tìm..." onkeyup="filterSongs()">
+        <input type="text" id="searchBar" placeholder="🔍 Tìm tên bài hát cậu yêu thích..." onkeyup="filterSongs()">
         <div class="filter-group">
             <button class="filter-btn active" onclick="setGenre('All')">Tất cả ✨</button>
             <button class="filter-btn" onclick="setGenre('Nhạc xập xình')">Xập Xình 🔥</button>
@@ -159,22 +144,15 @@
     </div>
 
     <div class="song-container" id="songList"></div>
-    <div id="countInfo" style="margin: 40px 0; color: #aaa;"></div>
+    <div id="countInfo" style="margin: 40px 0; color: #aaa; font-size: 0.9rem;"></div>
 
     <div id="lyricsModal" class="modal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2 id="modalTitle" style="color: #ff6b81">Tên Bài Hát</h2>
             <div id="modalBody" class="lyrics-box"></div>
-            <p style="margin-top: 25px; color: #ffb7c5; font-size: 0.8rem">Chúc cậu nghe nhạc vui vẻ! ✨🌸</p>
+            <p style="margin-top: 25px; color: #ffb7c5; font-size: 0.8rem"> Hát đi còn gì nữa</p>
         </div>
-    </div>
-
-    <div class="music-control" onclick="toggleMusic()">
-        <span id="music-icon" style="color: white; font-size: 22px;">🔇</span>
-        <audio id="bg-music" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
     </div>
 
     <script>
@@ -184,52 +162,42 @@
     {
         "title": "Người tình Mai Ya Hee",
         "genre": "Nhạc xập xình",
-        "lyrics": "Ma-ia-hii, Ma-ia-huu, Ma-ia-hoo, Ma-ia-haa...\nNụ cười rạng rỡ khi em đang nhìn anh..."
     },
     {
         "title": "Cô đôi thượng ngàn",
         "genre": "Nhạc xập xình",
-        "lyrics": "Dâng văn thỉnh mời cô đôi Thượng Ngàn.\nCảnh rừng núi non hùng vĩ, tiếng hót chim líu lo trên cành.\nCô đi hái thuốc cứu người, danh tiếng vang lừng khắp muôn phương."
     },
     {
         "title": "Trú Mưa",
         "genre": "Nhạc xập xình",
-        "lyrics": "Gió cuốn những lá khô rơi bên đường.\nGiọt nước mắt của anh cứ rơi vì anh biết từ đây mất em rồi.\nĐứng trú mưa mà lòng đau thắt lại, kỷ niệm xưa giờ tan thành mây khói."
     },
     {
         "title": "Nàng kiều lỡ bước",
         "genre": "Nhạc xập xình",
-        "lyrics": "Nàng Kiều lỡ bước giữa cuộc đời này.\nMột mình lẻ bóng đi trong đêm thâu, tìm đâu thấy bến đỗ bình yên.\nHồng nhan bạc phận, dòng đời xô đẩy em về đâu?"
     },
     {
         "title": "Bên anh đêm nay",
         "genre": "Nhạc xập xình",
-        "lyrics": "Hãy bên anh thêm một đêm nay nữa thôi.\nĐừng vội vã rời xa khi tình đang nồng cháy.\nTrái tim anh chỉ có mỗi mình em, nguyện yêu em đến trọn cuộc đời."
     },
     {
         "title": "Có duyên không nợ",
         "genre": "Nhạc xập xình",
-        "lyrics": "Phải chăng mình có duyên nhưng chẳng có nợ.\nYêu thương trao nhau bỗng chốc hóa thành mây bay.\nThôi đành nhìn em hạnh phúc bên ai, chúc em bình yên trên con đường mới."
     },
     {
         "title": "Phai dấu cuộc tình",
         "genre": "Nhạc xập xình",
-        "lyrics": "Người ra đi để lại đây bao nỗi nhớ.\nTìm lại dấu chân xưa giờ đã phai mờ theo thời gian.\nTình yêu đó nay chỉ còn là dĩ vãng, đau đớn mình anh gánh chịu."
     },
     {
         "title": "Như một người dưng",
         "genre": "Nhạc xập xình",
-        "lyrics": "Em đã từng là duy nhất, là tất cả trong anh.\nNhưng giờ ta gặp lại nhau như hai người dưng lướt qua.\nNỗi đau này làm sao anh có thể quên, làm sao để tim thôi ngừng nhói?"
     },
     {
         "title": "Vở kịch của em",
         "genre": "Nhạc xập xình",
-        "lyrics": "Vở kịch của em bây giờ đã đến lúc kết thúc rồi.\nNhững lời dối gian anh đã quá mệt mỏi để tin thêm.\nHạ màn đi em, anh không muốn làm khán giả trong cuộc đời em nữa."
     },
     {
         "title": "Hẹn hò nhưng không yêu",
         "genre": "Nhạc xập xình",
-        "lyrics": "Chỉ là hẹn hò thôi, chỉ là một chút vui thôi.\nĐừng bắt anh phải yêu em thật lòng, vì tim anh chưa sẵn sàng.\nMình cứ thế này nhé, không ràng buộc, không hứa hẹn tương lai."
     },
     { "title": "Cánh hoa héo tàn", "genre": "Nhạc xập xình", "lyrics": "" },
     { "title": "Để anh lương thiện", "genre": "Nhạc xập xình", "lyrics": "" },
@@ -308,6 +276,17 @@
     { "title": "Đông kiếm em", "genre": "Nhạc ballad", "lyrics": "" },
     { "title": "Lạ Lùng", "genre": "Nhạc ballad", "lyrics": "" },
     { "title": "Giữ lấy làm gì", "genre": "Nhạc ballad", "lyrics": "" },
+           // --- BỔ SUNG NHẠC BALLAD VIỆT ---
+{ title: "Ngày đầu tiên", genre: "Nhạc ballad",
+{ title: "Hơn cả yêu", genre: "Nhạc ballad", 
+{ title: "Suýt nữa thì", genre: "Nhạc ballad",
+{ title: "Gió", genre: "Nhạc ballad",
+{ title: "Có chàng trai viết lên cây", genre: "Nhạc ballad", 
+{ title: "Muộn rồi mà sao còn", genre: "Nhạc ballad",
+{ title: "Đã lỡ yêu em nhiều", genre: "Nhạc ballad", 
+{ title: "Nơi này có anh", genre: "Nhạc ballad",
+{ title: "Mascara", genre: "Nhạc ballad",
+{ title: "Tháng mấy em nhớ anh", genre: "Nhạc ballad", 
 
     // --- SONG CA ---
     { "title": "Cơn mưa tình yêu", "genre": "Song ca", "lyrics": "" },
@@ -327,18 +306,107 @@
     { "title": "Bật tình yêu lên", "genre": "Song ca", "lyrics": "" },
     { "title": "Tận cùng nỗi nhớ", "genre": "Song ca", "lyrics": "" },
     { "title": "Từ thích thích thành thương", "genre": "Song ca", "lyrics": "" },
-
-    // --- US-UK BẤT HỦ 🌎 ---
-    { "title": "Yesterday", "genre": "US-UK Bất Hủ", "lyrics": "Yesterday, all my troubles seemed so far away\nNow it looks as though they're here to stay\nOh, I believe in yesterday..." },
-    { "title": "Imagine", "genre": "US-UK Bất Hủ", "lyrics": "Imagine there's no heaven\nIt's easy if you try\nNo hell below us\nAbove us only sky..." },
-    { "title": "Bohemian Rhapsody", "genre": "US-UK Bất Hủ", "lyrics": "Is this the real life?\nIs this just fantasy?\nCaught in a landslide\nNo escape from reality..." },
-    { "title": "Hotel California", "genre": "US-UK Bất Hủ", "lyrics": "On a dark desert highway, cool wind in my hair\nWarm smell of colitas, rising up through the air..." },
-    { "title": "Hey Jude", "genre": "US-UK Bất Hủ", "lyrics": "Hey Jude, don't make it bad\nTake a sad song and make it better..." },
-    { "title": "Perfect", "genre": "US-UK Bất Hủ", "lyrics": "I found a love for me\nDarling, just dive right in and follow my lead..." },
-    { "title": "All of Me", "genre": "US-UK Bất Hủ", "lyrics": "Cause all of me loves all of you\nLove your curves and all your edges\nAll your perfect imperfections..." },
-    { "title": "Thinking Out Loud", "genre": "US-UK Bất Hủ", "lyrics": "When your legs don't work like they used to before\nAnd I can't sweep you off of your feet..." },
-    { "title": "Someone Like You", "genre": "US-UK Bất Hủ", "lyrics": "I heard that you're settled down\nThat you found a girl and you're married now..." },
-    { "title": "Rolling in the Deep", "genre": "US-UK Bất Hủ", "lyrics": "There's a fire starting in my heart\nReaching a fever pitch and it's bringing me out the dark..." }
+   // --- US-UK BẤT HỦ 🌎 ---
+{ title: "Yesterday", genre: "US-UK Bất Hủ", lyrics: `Yesterday, all my troubles seemed so far away\nNow it looks as though they're here to stay\nOh, I believe in yesterday...` },
+{ title: "Imagine", genre: "US-UK Bất Hủ", lyrics: `Imagine there's no heaven\nIt's easy if you try\nNo hell below us\nAbove us only sky...` },
+{ title: "Bohemian Rhapsody", genre: "US-UK Bất Hủ", lyrics: `Is this the real life?\nIs this just fantasy?\nCaught in a landslide\nNo escape from reality...` },
+{ title: "Hotel California", genre: "US-UK Bất Hủ", lyrics: `On a dark desert highway, cool wind in my hair\nWarm smell of colitas, rising up through the air...` },
+{ title: "Hey Jude", genre: "US-UK Bất Hủ", lyrics: `Hey Jude, don't make it bad\nTake a sad song and make it better...` },
+{ title: "My Heart Will Go On", genre: "US-UK Bất Hủ", lyrics: `Every night in my dreams\nI see you, I feel you\nThat is how I know you go on...` },
+{ title: "I Will Always Love You", genre: "US-UK Bất Hủ", lyrics: `If I should stay\nI would only be in your way\nSo I'll go, but I know\nI'll think of you every step of the way...` },
+{ title: "Rolling in the Deep", genre: "US-UK Bất Hủ", lyrics: `There's a fire starting in my heart\nReaching a fever pitch and it's bringing me out the dark...` },
+{ title: "Shape of You", genre: "US-UK Bất Hủ", lyrics: `The club isn't the best place to find a lover\nSo the bar is where I go...` },
+{ title: "Perfect", genre: "US-UK Bất Hủ", lyrics: `I found a love for me\nDarling, just dive right in and follow my lead...` },
+{ title: "Thinking Out Loud", genre: "US-UK Bất Hủ", lyrics: `When your legs don't work like they used to before\nAnd I can't sweep you off of your feet...` },
+{ title: "All of Me", genre: "US-UK Bất Hủ", lyrics: `Cause all of me loves all of you\nLove your curves and all your edges\nAll your perfect imperfections...` },
+{ title: "Hallelujah", genre: "US-UK Bất Hủ", lyrics: `I've heard there was a secret chord\nThat David played, and it pleased the Lord...` },
+{ title: "Someone Like You", genre: "US-UK Bất Hủ", lyrics: `I heard that you're settled down\nThat you found a girl and you're married now...` },
+{ title: "Hello", genre: "US-UK Bất Hủ", lyrics: `Hello from the other side\nI must have called a thousand times...` },
+{ title: "Let Her Go", genre: "US-UK Bất Hủ", lyrics: `Well you only need the light when it's burning low\nOnly miss the sun when it starts to snow...` },
+{ title: "Stay With Me", genre: "US-UK Bất Hủ", lyrics: `Won't you stay with me?\n'Cause you're all I need...` },
+{ title: "Love Yourself", genre: "US-UK Bất Hủ", lyrics: `My mama don't like you and she likes everyone\nAnd I never like to admit that I was wrong...` },
+{ title: "Bad Romance", genre: "US-UK Bất Hủ", lyrics: `I want your ugly, I want your disease\nI want your everything as long as it's free...` },
+{ title: "Shallow", genre: "US-UK Bất Hủ", lyrics: `I'm off the deep end, watch as I dive in\nI'll never meet the ground...` },
+{ title: "Uptown Funk", genre: "US-UK Bất Hủ", lyrics: `This hit, that ice cold\nMichelle Pfeiffer, that white gold...` },
+{ title: "Just the Way You Are", genre: "US-UK Bất Hủ", lyrics: `When I see your face\nThere's not a thing that I would change...` },
+{ title: "Sugar", genre: "US-UK Bất Hủ", lyrics: `Sugar, yes please\nWon't you come and put it down on me?` },
+{ title: "See You Again", genre: "US-UK Bất Hủ", lyrics: `It's been a long day without you, my friend\nAnd I'll tell you all about it when I see you again...` },
+{ title: "Counting Stars", genre: "US-UK Bất Hủ", lyrics: `Lately, I've been, I've been losing sleep\nDreaming about the things that we could be...` },
+{ title: "Despacito", genre: "US-UK Bất Hủ", lyrics: `Despacito\nQuiero respirar tu cuello despacito...` },
+{ title: "Blinding Lights", genre: "US-UK Bất Hủ", lyrics: `I've been on my own for long enough\nMaybe you can show me how to love, maybe...` },
+{ title: "Shake It Off", genre: "US-UK Bất Hủ", lyrics: `Cause the players gonna play, play, play, play, play\nAnd the haters gonna hate, hate, hate, hate, hate...` },
+{ title: "Love Story", genre: "US-UK Bất Hủ", lyrics: `Romeo, take me somewhere we can be alone\nI'll be waiting, all there's left to do is run...` },
+{ title: "Believer", genre: "US-UK Bất Hủ", lyrics: `First things first\nI'ma say all the words inside my head...` },
+{ title: "Viva La Vida", genre: "US-UK Bất Hủ", lyrics: `I used to rule the world\nSeas would rise when I gave the word...` },
+{ title: "Yellow", genre: "US-UK Bất Hủ", lyrics: `Look at the stars\nLook how they shine for you...` },
+{ title: "Take Me To Church", genre: "US-UK Bất Hủ", lyrics: `Take me to church\nI'll worship like a dog at the shrine of your lies...` },
+{ title: "Chandelier", genre: "US-UK Bất Hủ", lyrics: `I'm gonna swing from the chandelier\nFrom the chandelier...` },
+{ title: "A Thousand Years", genre: "US-UK Bất Hủ", lyrics: `I have died every day waiting for you\nDarling, don't be afraid I have loved you for a thousand years...` },
+{ title: "Let It Go", genre: "US-UK Bất Hủ", lyrics: `Let it go, let it go\nCan't hold it back anymore...` },
+{ title: "Stay", genre: "US-UK Bất Hủ", lyrics: `I do the same thing I told you that I never would\nI told you I'd change, even when I knew I never could...` },
+{ title: "Heat Waves", genre: "US-UK Bất Hủ", lyrics: `Sometimes, all I think about is you\nLate nights in the middle of June...` },
+{ title: "Bad Guy", genre: "US-UK Bất Hủ", lyrics: `So you're a tough guy\nLike it really rough guy...` },
+{ title: "Lovely", genre: "US-UK Bất Hủ", lyrics: `Isn't it lovely, all alone\nHeart made of glass, my mind of stone...` },
+{ title: "Hero", genre: "US-UK Bất Hủ", lyrics: `And then a hero comes along\nWith the strength to carry on...` },
+{ title: "All I Want For Christmas Is You", genre: "US-UK Bất Hủ", lyrics: `I don't want a lot for Christmas\nThere is just one thing I need...` },
+{ title: "Girls Like You", genre: "US-UK Bất Hủ", lyrics: `Cause girls like you run 'round with guys like me\n'Til sun comes down when I come through...` },
+{ title: "Memories", genre: "US-UK Bất Hủ", lyrics: `Here's to the ones that we got\nCheers to the wish you were here, but you're not...` },
+{ title: "Closer", genre: "US-UK Bất Hủ", lyrics: `So baby pull me closer in the backseat of your Rover...` },
+{ title: "Wake Me Up", genre: "US-UK Bất Hủ", lyrics: `So wake me up when it's all over\nWhen I'm wiser and I'm older...` },
+{ title: "Starboy", genre: "US-UK Bất Hủ", lyrics: `Look what you've done\nI'm a motherf***in' starboy...` },
+{ title: "New Rules", genre: "US-UK Bất Hủ", lyrics: `One: Don't pick up the phone\nYou know he's only callin' 'cause he's drunk and alone...` },
+{ title: "Havana", genre: "US-UK Bất Hủ", lyrics: `Havana, ooh na-na\nHalf of my heart is in Havana, ooh-na-na...` },
+{ title: "Senorita", genre: "US-UK Bất Hủ", lyrics: `I love it when you call me Señorita\nI wish I could pretend I didn't need ya...` },
+{ title: "Blank Space", genre: "US-UK Bất Hủ", lyrics: `So it's gonna be forever\nOr it's gonna go down in flames...` },
+{ title: "Titanium", genre: "US-UK Bất Hủ", lyrics: `You shout it out, but I can't hear a word you say\nI'm talking loud, not saying much...` },
+{ title: "Stitches", genre: "US-UK Bất Hủ", lyrics: `You watch me bleed until I can't breathe\nI'm shaking, falling onto my knees...` },
+{ title: "The Scientist", genre: "US-UK Bất Hủ", lyrics: `Come up to meet you, tell you I'm sorry\nYou don't know how lovely you are...` },
+{ title: "Fix You", genre: "US-UK Bất Hủ", lyrics: `Lights will guide you home\nAnd ignite your bones\nAnd I will try to fix you...` },
+{ title: "Radioactive", genre: "US-UK Bất Hủ", lyrics: `I'm waking up, I feel it in my bones\nEnough to make my systems blow...` },
+{ title: "Demons", genre: "US-UK Bất Hủ", lyrics: `When you feel my heat, look into my eyes\nIt's where my demons hide...` },
+{ title: "Moves Like Jagger", genre: "US-UK Bất Hủ", lyrics: `I don't need to try to control you\nLook into my eyes and I'll own you...` },
+{ title: "Diamonds", genre: "US-UK Bất Hủ", lyrics: `Shine bright like a diamond\nShine bright like a diamond...` },
+{ title: "Umbrella", genre: "US-UK Bất Hủ", lyrics: `Under my umbrella, ella, ella, eh, eh, eh...` },
+{ title: "Firework", genre: "US-UK Bất Hủ", lyrics: `Baby, you're a firework\nCome on show 'em what you're worth...` },
+{ title: "Roar", genre: "US-UK Bất Hủ", lyrics: `I got the eye of the tiger, a fighter\nDancing through the fire...` },
+{ title: "One More Night", genre: "US-UK Bất Hủ", lyrics: `But baby there you go again, there you go again, making me love you...` },
+{ title: "Payphone", genre: "US-UK Bất Hủ", lyrics: `I'm at a payphone trying to call home\nAll of my change I spent on you...` },
+{ title: "Maps", genre: "US-UK Bất Hủ", lyrics: `So I'm following the map that leads to you\nThe map that leads to you...` },
+{ title: "Attention", genre: "US-UK Bất Hủ", lyrics: `You just want attention, you don't want my heart\nMaybe you just hate the thought of me with someone new...` },
+{ title: "We Don't Talk Anymore", genre: "US-UK Bất Hủ", lyrics: `We don't talk anymore, we don't talk anymore\nWe don't talk anymore like we used to do...` },
+{ title: "Don't Start Now", genre: "US-UK Bất Hủ", lyrics: `Don't show up, don't come out\nDon't start caring about me now...` },
+{ title: "Drivers License", genre: "US-UK Bất Hủ", lyrics: `I got my driver's license last week\nJust like we always talked about...` },
+{ title: "Good 4 U", genre: "US-UK Bất Hủ", lyrics: `Well, good for you, you look happy and healthy\nNot me, if you ever cared to ask...` },
+{ title: "Levitating", genre: "US-UK Bất Hủ", lyrics: `I got you, moonlight, you're my starlight\nI need you all night, come on, dance with me...` },
+{ title: "Save Your Tears", genre: "US-UK Bất Hủ", lyrics: `Save your tears for another day\nSave your tears for another day...` },
+{ title: "Can't Feel My Face", genre: "US-UK Bất Hủ", lyrics: `I can't feel my face when I'm with you\nBut I love it, but I love it...` },
+{ title: "The Hills", genre: "US-UK Bất Hủ", lyrics: `I only call you when it's half past five\nThe only time I'd ever call you mine...` },
+{ title: "Grenade", genre: "US-UK Bất Hủ", lyrics: `I'd catch a grenade for ya\nThrow my hand on a blade for ya...` },
+{ title: "Locked Out of Heaven", genre: "US-UK Bất Hủ", lyrics: `Cause your sex takes me to paradise\nYeah, your sex takes me to paradise...` },
+{ title: "Marry You", genre: "US-UK Bất Hủ", lyrics: `It's a beautiful night, we're looking for something dumb to do\nHey baby, I think I wanna marry you...` },
+{ title: "Cheap Thrills", genre: "US-UK Bất Hủ", lyrics: `Baby, I don't need dollar bills to have fun tonight\nI love cheap thrills...` },
+{ title: "Elastic Heart", genre: "US-UK Bất Hủ", lyrics: `And another one bites the dust\nOh why can I not conquer love?` },
+{ title: "Treat You Better", genre: "US-UK Bất Hủ", lyrics: `I know I can treat you better than he can\nAnd any girl like you deserves a gentleman...` },
+{ title: "There's Nothing Holdin' Me Back", genre: "US-UK Bất Hủ", lyrics: `Oh, I've been shaking, I love it when you go crazy\nYou take all my inhibitions...` },
+{ title: "Hallelujah", genre: "US-UK Bất Hủ", lyrics: `Hallelujah, Hallelujah\nHallelujah, Hallelujah...` },
+{ title: "Always Be My Baby", genre: "US-UK Bất Hủ", lyrics: `You'll always be a part of me\nI'm part of you indefinitely...` },
+{ title: "Everything I Wanted", genre: "US-UK Bất Hủ", lyrics: `I had a dream, I got everything I wanted\nBut when I wake up, I see you with me...` },
+{ title: "Happier Than Ever", genre: "US-UK Bất Hủ", lyrics: `When I'm away from you, I'm happier than ever\nWish I could explain it better...` },
+{ title: "Jar of Hearts", genre: "US-UK Bất Hủ", lyrics: `Who do you think you are?\nRunnin' 'round leavin' scars...` },
+{ title: "Stay With Me", genre: "US-UK Bất Hủ", lyrics: `Oh, won't you stay with me?\n'Cause you're all I need...` },
+{ title: "Poker Face", genre: "US-UK Bất Hủ", lyrics: `Can't read my, can't read my\nNo, he can't read my poker face...` },
+{ title: "Diamonds", genre: "US-UK Bất Hủ", lyrics: `Shine bright like a diamond\nShine bright like a diamond...` },
+{ title: "Don't Let Me Down", genre: "US-UK Bất Hủ", lyrics: `Crashing, hit a wall, right bây giờ I need a miracle\nHurry up bây giờ, I need a miracle...` },
+{ title: "Waiting For Love", genre: "US-UK Bất Hủ", lyrics: `Monday left me broken, Tuesday I was through with hoping...` },
+{ title: "Levels", genre: "US-UK Bất Hủ", lyrics: `Oh, sometimes I get a good feeling, yeah\nGet a feeling that I never, never, never, never had before...` },
+{ title: "Natural", genre: "US-UK Bất Hủ", lyrics: `Will you hold the line, when every one of them is giving up and giving in? Tell me\nIn this house of mine, nothing bao giờ comes không màng to...` },
+{ title: "Paradise", genre: "US-UK Bất Hủ", lyrics: `Para-para-paradise, para-para-paradise\nEvery time she closed her eyes...` },
+{ title: "Something Just Like This", genre: "US-UK Bất Hủ", lyrics: `I'm not looking for somebody with some superhuman gifts\nJust something I can turn to, somebody I can kiss...` },
+{ title: "Thunder", genre: "US-UK Bất Hủ", lyrics: `Thunder, thunder\nThunder, feel the thunder...` },
+{ title: "Numb", genre: "US-UK Bất Hủ", lyrics: `I've become so numb, I can't feel you there\nBecome so tired, so much bao giờ aware...` },
+{ title: "In the End", genre: "US-UK Bất Hủ", lyrics: `I tried so hard and got so far\nBut in the end, it doesn't even matter...` },
+{ title: "Smells Like Teen Spirit", genre: "US-UK Bất Hủ", lyrics: `With the lights out, it's less dangerous\nHere chúng ta bây giờ, entertain us...` },
+{ title: "Sweet Child O' Mine", genre: "US-UK Bất Hủ", lyrics: `She's got a smile that it seems to me\nReminds me of childhood memories...` }
     // ... và còn hơn 90 bài US-UK khác đã được nạp sẵn.
 ];
         // Tự động nạp thêm 100 bài US-UK demo (Có thể thay thế bằng list thật)
@@ -415,3 +483,4 @@
     </script>
 </body>
 </html>
+
