@@ -404,10 +404,10 @@
         // Nếu lyrics rỗng hoặc chỉ toàn khoảng trắng thì hiện link GG
         if (!song.lyrics || song.lyrics.trim() === "") {
             body.innerHTML = `
-                <p>Aki đang cập nhật lời bài này cho cậu... 🌸</p>
+                <p> Quên lời à?</p>
                 <a href="${searchUrl}" target="_blank" 
                    style="display:inline-block; margin-top:15px; padding:10px 20px; background:var(--btn-active); color:white; border-radius:20px; text-decoration:none; font-weight:bold;">
-                   🔍 Tìm lời trên Google nhé!
+                   🔍 Tìm lời trên Google đi
                 </a>
             `;
         } else {
@@ -436,3 +436,4 @@
 </script>
 </body>
 </html>
+
